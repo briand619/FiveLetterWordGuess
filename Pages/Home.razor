@@ -1,0 +1,333 @@
+﻿@page "/"
+
+<PageTitle>Five Letter Word Guess</PageTitle>
+
+<div class="text-center game-container">
+    <ul class="guesses">
+        @for (var i = 0; i < _guessLimit; i++)
+        {
+            <li class="word">
+                <div class="letters">
+                    @for (var j = 0; j < 5; j++)
+                    {
+                        <div class="letter-container">
+                            <div class="letter @_flipped![i][j]">
+                                <div class="letter-face">@_lettersRef![i][j]</div>
+                                <div class="letter-face letter-back @_letterStatus![i][j]">@_lettersRef[i][j]</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+
+
+    <div class="keyboard">
+	    <div class="top-row">
+			<KeyboardButton ButtonText="Q" ButtonPressed="HandleLetterClick" Status='Buttons["Q"]' />
+			<KeyboardButton ButtonText="W" ButtonPressed="HandleLetterClick" Status='Buttons["W"]' />
+			<KeyboardButton ButtonText="E" ButtonPressed="HandleLetterClick" Status='Buttons["E"]' />
+			<KeyboardButton ButtonText="R" ButtonPressed="HandleLetterClick" Status='Buttons["R"]' />
+			<KeyboardButton ButtonText="T" ButtonPressed="HandleLetterClick" Status='Buttons["T"]' />
+			<KeyboardButton ButtonText="Y" ButtonPressed="HandleLetterClick" Status='Buttons["Y"]' />
+			<KeyboardButton ButtonText="U" ButtonPressed="HandleLetterClick" Status='Buttons["U"]' />
+			<KeyboardButton ButtonText="I" ButtonPressed="HandleLetterClick" Status='Buttons["I"]' />
+			<KeyboardButton ButtonText="O" ButtonPressed="HandleLetterClick" Status='Buttons["O"]' />
+			<KeyboardButton ButtonText="P" ButtonPressed="HandleLetterClick" Status='Buttons["P"]' />
+	    </div>
+	    <div class="middle-row">
+			<KeyboardButton ButtonText="A" ButtonPressed="HandleLetterClick" Status='Buttons["A"]' />
+			<KeyboardButton ButtonText="S" ButtonPressed="HandleLetterClick" Status='Buttons["S"]' />
+			<KeyboardButton ButtonText="D" ButtonPressed="HandleLetterClick" Status='Buttons["D"]' />
+			<KeyboardButton ButtonText="F" ButtonPressed="HandleLetterClick" Status='Buttons["F"]' />
+			<KeyboardButton ButtonText="G" ButtonPressed="HandleLetterClick" Status='Buttons["G"]' />
+			<KeyboardButton ButtonText="H" ButtonPressed="HandleLetterClick" Status='Buttons["H"]' />
+			<KeyboardButton ButtonText="J" ButtonPressed="HandleLetterClick" Status='Buttons["J"]' />
+			<KeyboardButton ButtonText="K" ButtonPressed="HandleLetterClick" Status='Buttons["K"]' />
+			<KeyboardButton ButtonText="L" ButtonPressed="HandleLetterClick" Status='Buttons["L"]' />
+	    </div>
+	    <div class="bottom-row">
+		    <KeyboardButton ButtonText="ENTER" ButtonPressed="HandleLetterClick" />
+			<KeyboardButton ButtonText="Z" ButtonPressed="HandleLetterClick" Status='Buttons["Z"]' />
+			<KeyboardButton ButtonText="X" ButtonPressed="HandleLetterClick" Status='Buttons["X"]' />
+			<KeyboardButton ButtonText="C" ButtonPressed="HandleLetterClick" Status='Buttons["C"]' />
+			<KeyboardButton ButtonText="V" ButtonPressed="HandleLetterClick" Status='Buttons["V"]' />
+			<KeyboardButton ButtonText="B" ButtonPressed="HandleLetterClick" Status='Buttons["B"]' />
+			<KeyboardButton ButtonText="N" ButtonPressed="HandleLetterClick" Status='Buttons["N"]' />
+		    <KeyboardButton ButtonText="M" ButtonPressed="HandleLetterClick" Status='Buttons["M"]' />
+		    <KeyboardButton ButtonText="BS" ButtonPressed="HandleLetterClick" />
+	    </div>
+        <div class="reset-row">
+            <button type="button" @onclick="HandleReset">RESET</button>
+        </div>
+    </div>
+</div>
+
+@code
+{
+	int _guessLimit;
+	string[][]? _flipped;
+	char[][]? _lettersRef;
+	LetterStatus[][]? _letterStatus;
+	IList<string?> _words = new List<string?>();
+	int _guesses = 0;
+	string _currentWord = string.Empty;
+	bool _gameOver;
+	private string _currentGuess = string.Empty;
+	Dictionary<string, LetterStatus> Buttons = Enumerable.Range('A', 26).Select(c => ((char)c).ToString()).ToDictionary(x => x, y => LetterStatus.NotChecked);
+
+	[Inject] private ISnackbar? Snackbar { get; set; }
+	[Inject] private Blazored.LocalStorage.ISyncLocalStorageService? LocalStorage { get; set; }
+
+	private string? CurrentGuess
+	{
+		get => !string.IsNullOrEmpty(_currentGuess) ? _currentGuess : string.Empty;
+		set
+		{
+			_currentGuess = value!;
+
+			for (var i = 0; i < 5; i++)
+			{
+				if (_currentGuess!.Length > i)
+				{
+					_lettersRef![_guesses][i] = _currentGuess[i];
+				}
+				else
+				{
+					_lettersRef![_guesses][i] = ' ';
+				}
+			}
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		foreach (var key in Buttons.Keys)
+		{
+			Buttons[key] = LetterStatus.NotChecked;
+		}
+
+		var rnd = new Random();
+		_gameOver = false;
+		_guessLimit = 6;
+
+		_flipped = new string[_guessLimit][];
+		_lettersRef = new char[_guessLimit][];
+		_letterStatus = new LetterStatus[_guessLimit][];
+
+		_currentGuess = string.Empty;
+
+		for (var i = 0; i < _guessLimit; i++)
+		{
+			_lettersRef[i] = Enumerable.Repeat(' ', 5).ToArray();
+			_letterStatus[i] = Enumerable.Repeat(LetterStatus.NotChecked, 5).ToArray();
+			_flipped[i] = Enumerable.Repeat(string.Empty, 5).ToArray();
+		}
+
+		_guesses = 0;
+
+		string wordlist;
+
+		if (LocalStorage!.ContainKey("wordlist"))
+		{
+			wordlist = LocalStorage!.GetItemAsString("wordlist")!;
+		}
+		else
+		{
+			wordlist = "wordlist-easier";
+		}
+
+		_words = wordlist switch
+		{
+			"allwords" => WordLists.AllWordList,
+			"wordlist-easier" => WordLists.EasierWordList,
+			_ => WordLists.EasierWordList
+		};
+
+		_currentWord = _words[rnd.Next(0, _words.Count)]!;
+	}
+
+	async Task HandleLetterClick(KeyboardButton button)
+	{
+		if (_gameOver) return;
+
+		switch (button.ButtonText)
+		{
+			case "BS":
+				if (!CurrentGuess!.Any()) return;
+				CurrentGuess = CurrentGuess![..^1];
+				return;
+			case "ENTER":
+				if (CurrentGuess!.Length < 5) return;
+				await ProcessGuess();
+				return;
+		}
+
+		if (char.IsLetter(button.ButtonText!.ToCharArray().First()) && CurrentGuess!.Length <= 4)
+		{
+			CurrentGuess += button.ButtonText.ToUpper().ToCharArray().First();
+		}
+	}
+
+	async Task HandleReset()
+	{
+		await OnInitializedAsync();
+	}
+
+	private async Task ProcessGuess()
+	{
+		if (!_lettersRef![_guesses].All(char.IsLetter))
+		{
+			return;
+		}
+
+		if (!_words.Contains(CurrentGuess, StringComparer.InvariantCultureIgnoreCase))
+		{
+			Snackbar!.Add("Oops! Not in word list!", Severity.Warning, config =>
+			{
+				config.Icon = Icons.Material.Filled.Quiz;
+				config.VisibleStateDuration = 2500;
+			});
+
+			for (var i = 0; i < 5; i++)
+			{
+				_letterStatus![_guesses][i] = LetterStatus.NonWord;
+			}
+
+			StateHasChanged();
+
+			await Task.Delay(TimeSpan.FromMilliseconds(250));
+
+			for (var i = 0; i < 5; i++)
+			{
+				_letterStatus![_guesses][i] = LetterStatus.NotChecked;
+			}
+
+			StateHasChanged();
+
+			return;
+		}
+
+		if (_currentWord!.Equals(CurrentGuess, StringComparison.InvariantCultureIgnoreCase))
+		{
+			RecordResult(true, _guesses + 1);
+
+			for (int i = 0; i < 5; i++)
+			{
+				_flipped![_guesses][i] = "is-flipped";
+				_letterStatus![_guesses][i] = LetterStatus.InWordRightPlace;
+				Buttons![CurrentGuess[i].ToString().ToUpperInvariant()] = LetterStatus.InWordRightPlace;
+				StateHasChanged();
+				
+				await Task.Delay(TimeSpan.FromMilliseconds(250));
+				
+			}
+
+			StateHasChanged();
+
+			Snackbar!.Add("Well Done!", Severity.Success, config =>
+			{
+				config.Icon = Icons.Material.Filled.ThumbUp;
+				config.Action = "New Game";
+				config.ActionColor = Color.Primary;
+				config.RequireInteraction = true;
+				config.ShowCloseIcon = true;
+				config.Onclick = async sb =>
+				{
+					await OnInitializedAsync();
+					StateHasChanged();
+				};
+			});
+
+			_gameOver = true;
+			return;
+		}
+
+		for (var i = 0; i < CurrentGuess!.Length; i++)
+		{
+			if (char.ToUpperInvariant(CurrentGuess[i]) == char.ToUpperInvariant(_currentWord[i]))
+			{
+				_letterStatus![_guesses][i] = LetterStatus.InWordRightPlace;
+			}
+			else if (_currentWord.ToUpperInvariant().Contains(char.ToUpperInvariant(CurrentGuess[i])))
+			{
+				_letterStatus![_guesses][i] = LetterStatus.InWordWrongPlace;
+			}
+			else
+			{
+				_letterStatus![_guesses][i] = LetterStatus.NotInWord;
+			}
+
+			Buttons![CurrentGuess[i].ToString().ToUpperInvariant()] = _letterStatus[_guesses][i];
+
+			_flipped![_guesses][i] = "is-flipped";
+
+			StateHasChanged();
+
+			await Task.Delay(TimeSpan.FromMilliseconds(250));
+		}
+
+		if (_guesses >= _guessLimit)
+		{
+			RecordResult(false, -1);
+
+			Snackbar!.Add(
+				$"<div>Oh Noes! Too Many Tries!</div><div>The word you wanted was:</div><h4>{_currentWord.ToUpperInvariant()}</h4>",
+				Severity.Error, config =>
+				{
+					config.Icon = Icons.Material.Filled.MoodBad;
+					config.Action = "New Game";
+					config.ActionColor = Color.Primary;
+					config.RequireInteraction = true;
+					config.ShowCloseIcon = true;
+					config.Onclick = async sb =>
+					{
+						await OnInitializedAsync();
+						StateHasChanged();						
+					};
+				});
+            
+			StateHasChanged();
+			_gameOver = true;
+			return;
+		}
+
+		_guesses++;
+		CurrentGuess = string.Empty;
+	}
+
+	private void RecordResult(bool didWin, int totalGuesses)
+	{
+		GameStatistics stats;
+
+		if (LocalStorage!.ContainKey("stats"))
+		{
+			stats = LocalStorage!.GetItem<GameStatistics>("stats")!;
+		}
+		else
+		{
+			stats = new GameStatistics
+			{
+				CurrentStreak = 0,
+				TotalGames = 0,
+				Wins = 0,
+				GuessesUsed = new int[6]
+			};
+		}
+
+		stats.TotalGames++;
+
+		stats.Wins += didWin ? 1 : 0;
+
+		stats.CurrentStreak = didWin ? stats.CurrentStreak + 1 : 0;
+
+		if (totalGuesses > 0)
+		{
+			stats.GuessesUsed[totalGuesses - 1]++;
+		}
+
+		LocalStorage!.SetItem("stats", stats);
+	}
+}
+  

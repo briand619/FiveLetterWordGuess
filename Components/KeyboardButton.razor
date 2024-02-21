@@ -1,0 +1,35 @@
+﻿<button type="button" data-letter="@ButtonText" class="@Status" @onclick="HandleLetterClick" disabled="@Disabled">@((MarkupString)_buttonContents)</button>
+
+@code {
+	private string _buttonContents = string.Empty;
+
+	[Parameter]
+	public string? ButtonText { get; set; }
+
+	[Parameter]
+	public EventCallback<KeyboardButton> ButtonPressed { get; set; }
+
+	[Parameter]
+	public LetterStatus Status { get; set; }
+
+	private bool Disabled { get; set; } = false;
+
+	protected override void OnParametersSet()
+	{
+		Disabled = Status == LetterStatus.NotInWord;
+
+		if (ButtonText == "BS")
+		{
+			_buttonContents = "&#x232b;";
+		}
+		else
+		{
+			_buttonContents = ButtonText!;
+		}
+	}
+
+	private async Task HandleLetterClick()
+	{
+		await ButtonPressed.InvokeAsync(this);
+	}
+}

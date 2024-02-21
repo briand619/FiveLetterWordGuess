@@ -1,0 +1,74 @@
+﻿<MudDialog>
+	<TitleContent>
+		<MudText Typo="Typo.h6">
+			<MudIcon Icons="@Icons.Material.Filled.Score" Class="mr-3 mb-n1" />
+			Statistics
+		</MudText>
+	</TitleContent>
+	<DialogContent>
+		<MudPaper Class="pa-4">
+			<MudChart ChartType="ChartType.Donut" Width="100%" InputData="@data" InputLabels="@labels"></MudChart>
+			<MudText>Current Win Streak: @Stats.CurrentStreak</MudText>
+			<MudChart ChartType="ChartType.Bar" Width="100%" InputLabels="@labels" XAxisLabels="@BarLabels" ChartSeries="BarChartSeries"></MudChart>
+		</MudPaper>
+	</DialogContent>
+	<DialogActions>
+		<MudButton OnClick="Done">OK</MudButton>
+	</DialogActions>
+</MudDialog>
+
+@code
+{
+	[Inject]
+	private Blazored.LocalStorage.ISyncLocalStorageService localStorage { get; set; }
+
+	private GameStatistics Stats { get; set; }
+
+	[CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+
+	public double[] data;
+	public string[] labels;
+
+	public string[] BarLabels { get; set; }
+	public List<ChartSeries> BarChartSeries { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (localStorage.ContainKey("stats"))
+		{
+			Stats = localStorage.GetItem<GameStatistics>("stats")!;
+		}
+		else
+		{
+			Stats = new GameStatistics
+			{
+				CurrentStreak = 0,
+				TotalGames = 0,
+				Wins = 0,
+				GuessesUsed = new int[6],
+			};
+		}
+
+		BarLabels = new[] { "1", "2", "3", "4", "5", "6" };
+		BarChartSeries = new List<ChartSeries>
+		{
+			new()
+			{
+				Name = "Guesses",
+				Data = new[]
+				{
+					(double)Stats!.GuessesUsed[0], Stats.GuessesUsed[1], Stats.GuessesUsed[2], Stats.GuessesUsed[3],
+					Stats.GuessesUsed[4], Stats.GuessesUsed[5],
+				}
+			}
+		};
+
+		data = new[] { (double)Stats.Wins, (double)Stats.Losses };
+		labels = new[] { "Wins", "Losses" };
+	}
+
+	void Done()
+	{
+		MudDialog.Close(DialogResult.Ok(true));
+	}
+}

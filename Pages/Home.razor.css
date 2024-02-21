@@ -1,0 +1,207 @@
+﻿* {
+    touch-action: none;
+}
+
+.container {
+    background-color: #222;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.guesses {
+    list-style-type: none;
+    flex-direction: column;
+}
+
+.word {
+    padding: 0.1vh;
+    margin: 0.1vh;
+}
+
+.letters {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-container:focus {
+    outline: none;
+}
+
+.game-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.letter-container {
+    border: 1px solid #d3d3d3;
+    font-size: 2em;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 600px;
+    margin: 2px;
+}
+
+::deep .keyboard {
+    position: absolute;
+    top: 110%;
+}
+
+::deep .keyboard > div {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+::deep .keyboard > div button {
+    display: flex;
+    border: 1px solid #000;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2vw;
+    padding: 0.2vw;
+    min-width: 4.4vh;
+    min-height: 4.4vh;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+::deep .keyboard .bottom-row div:not(:first-child, :last-child):before, .keyboard .top-row div:before, .keyboard .middle-row div:before {
+    content: attr(data-letter);
+}
+
+::deep .keyboard > div button:not([disabled]):active {
+    transform: translate(5%, 5%);
+    background-color: #778899;
+}
+
+::deep .keyboard > div button:not([disabled]):hover {
+    background-color: #778899;
+}
+
+::deep .keyboard > div:last-child > div:last-child {
+    font-size: 3vh;
+}
+
+.letter {
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: 0.75s;
+}
+
+.letter-face {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+::deep .NotChecked {
+    background-color: #fff;
+    color: #000;
+}
+
+.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.letter-back {
+    transform: rotateY(180deg);
+    border: 1px solid #000;
+}
+
+::deep .NotInWord {
+    background-color: #222222;
+    color: #fff;
+}
+
+::deep .InWordWrongPlace {
+    background-color: darkorange;
+    color: #fff;
+}
+
+::deep .InWordRightPlace {
+    background-color: darkgreen;
+    color: #fff;
+}
+
+::deep .NonWord {
+    animation: shake 0.25s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.status {
+    position: absolute;
+    top: 2vh;
+    font-size: 2em;
+    border: 8px solid #000;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    padding: 1rem;
+    font-weight: bold;
+    border-style: outset;
+}
+
+.reset-row {
+    margin-top: 2vh;
+}
+
+.reset-row > button {
+    padding: 0.1em !important;
+    min-height: 1.5vh !important;
+    min-width: 20vw !important;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.no-result {
+    display: none;
+}
+
+.result {
+    display: block;
+}
+
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

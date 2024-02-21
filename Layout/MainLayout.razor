@@ -1,0 +1,51 @@
+﻿@using FiveLetterWordGuess.Pages
+@inherits LayoutComponentBase
+@inject IDialogService DialogService
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+	<MudAppBar Elevation="0">
+		<MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit" Edge="Edge.Start" @onclick="OpenSettings" />
+		<MudSpacer />
+		<MudIconButton Icon="@Icons.Material.Filled.Score" Color="Color.Inherit" @onclick="OpenStats" />
+		<MudIconButton Icon="@Icons.Material.Filled.Help" Color="Color.Inherit" Edge="Edge.End" @onclick="OpenHelp" />
+	</MudAppBar>
+	<MudMainContent>
+		<MudContainer MaxWidth="MaxWidth.Large">
+			@Body
+		</MudContainer>
+	</MudMainContent>
+</MudLayout>
+
+
+
+
+@code
+{
+	bool _settingsOpen = false;
+
+	DialogOptions _opts = new()
+	{
+		CloseButton = true,
+		Position = DialogPosition.TopCenter,
+		CloseOnEscapeKey = true,
+	};
+
+	void OpenSettings()
+	{
+		DialogService.Show<Settings>("Settings", _opts); //DialogService.
+	}
+
+	void OpenStats()
+	{
+		DialogService.Show<Statistics>("Statistics", _opts);
+	}
+
+	void OpenHelp()
+	{
+		DialogService.Show<Help>("Help", _opts);
+	}
+}
