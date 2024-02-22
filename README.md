@@ -19,7 +19,7 @@ It uses the following [MudBlazor](https://mudblazor.com) components:
 - All words are stored in the code
 - Two wordlists, one with more "common" five letter words, the other with some pretty esoteric words.
 - Records stats regarding number of wins vs losses, current win streak, and guesses taken to find the correct word.
-- Uses LocalStorage, provided by [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) to save stats ans settings.
+- Uses LocalStorage, provided by [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) to save stats and settings.
   
 
 Feel free to clone/fork and modify this repo to your heart's content!
