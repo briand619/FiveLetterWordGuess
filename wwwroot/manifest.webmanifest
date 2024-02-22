@@ -1,6 +1,6 @@
 {
-    "name": "ComponentsWebAssembly-CSharp",
-    "short_name": "ComponentsWebAssembly-CSharp",
+    "name": "Five Letter Word Guess",
+    "short_name": "Five Letter Word Guess",
     "id": "./",
     "start_url": "./",
     "display": "standalone",
