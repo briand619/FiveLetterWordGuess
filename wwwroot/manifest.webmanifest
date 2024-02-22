@@ -25,7 +25,14 @@
             "sizes": "800x1274",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "Screenshot of Fiver" 
+            "label": "Screenshot of Five Letter word Guess" 
+        },
+        {
+            "src": "screenshot1.png",
+            "sizes": "800x1274",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Screenshot of Five Letter word Guess" 
         }
     ] 
 }
