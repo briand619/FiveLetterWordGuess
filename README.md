@@ -2,7 +2,7 @@
 
 ## A shameless clone of the ever-popular game W****e
 
-This project came to be from my desire to gain exposure to Blazor - specifically its WebAssembly model - and then progressed into a PWA to enable offline play on desktop/laptops and monile devices.
+This project came to be from my desire to gain exposure to Blazor - specifically its WebAssembly model - and then progressed into a PWA to enable offline play on desktops/laptops and mobile devices.
 
 It uses the following [MudBlazor](https://mudblazor.com) components:
 
