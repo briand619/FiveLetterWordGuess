@@ -21,5 +21,5 @@ It uses the following [MudBlazor](https://mudblazor.com) components:
 - Records stats regarding number of wins vs losses, current win streak, and guesses taken to find the correct word.
   
 
-Feel free to clone/fork modify this repo to your heart's content!
+Feel free to clone/fork and modify this repo to your heart's content!
   
