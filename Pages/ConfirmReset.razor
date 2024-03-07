@@ -1,0 +1,16 @@
+﻿<MudDialog>
+    <DialogContent>
+        This will clear the current word and any guess(es) that you've entered.
+    </DialogContent>
+    <DialogActions>
+        <MudButton @onclick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" @onclick="Ok">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Cancel() => MudDialog.Cancel();
+    void Ok() => MudDialog.Close(DialogResult.Ok(true));
+}

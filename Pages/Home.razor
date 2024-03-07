@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IDialogService DialogService
 
 <PageTitle>Five Letter Word Guess</PageTitle>
 
@@ -25,42 +26,45 @@
 
     <div class="keyboard">
 	    <div class="top-row">
-			<KeyboardButton ButtonText="Q" ButtonPressed="HandleLetterClick" Status='Buttons["Q"]' />
-			<KeyboardButton ButtonText="W" ButtonPressed="HandleLetterClick" Status='Buttons["W"]' />
-			<KeyboardButton ButtonText="E" ButtonPressed="HandleLetterClick" Status='Buttons["E"]' />
-			<KeyboardButton ButtonText="R" ButtonPressed="HandleLetterClick" Status='Buttons["R"]' />
-			<KeyboardButton ButtonText="T" ButtonPressed="HandleLetterClick" Status='Buttons["T"]' />
-			<KeyboardButton ButtonText="Y" ButtonPressed="HandleLetterClick" Status='Buttons["Y"]' />
-			<KeyboardButton ButtonText="U" ButtonPressed="HandleLetterClick" Status='Buttons["U"]' />
-			<KeyboardButton ButtonText="I" ButtonPressed="HandleLetterClick" Status='Buttons["I"]' />
-			<KeyboardButton ButtonText="O" ButtonPressed="HandleLetterClick" Status='Buttons["O"]' />
-			<KeyboardButton ButtonText="P" ButtonPressed="HandleLetterClick" Status='Buttons["P"]' />
+			<KeyboardButton ButtonText="Q" ButtonPressed="HandleLetterClick" Status=@(Buttons["Q"]) />
+			<KeyboardButton ButtonText="W" ButtonPressed="HandleLetterClick" Status=@(Buttons["W"]) />
+			<KeyboardButton ButtonText="E" ButtonPressed="HandleLetterClick" Status=@(Buttons["E"]) />
+			<KeyboardButton ButtonText="R" ButtonPressed="HandleLetterClick" Status=@(Buttons["R"]) />
+			<KeyboardButton ButtonText="T" ButtonPressed="HandleLetterClick" Status=@(Buttons["T"]) />
+			<KeyboardButton ButtonText="Y" ButtonPressed="HandleLetterClick" Status=@(Buttons["Y"]) />
+			<KeyboardButton ButtonText="U" ButtonPressed="HandleLetterClick" Status=@(Buttons["U"]) />
+			<KeyboardButton ButtonText="I" ButtonPressed="HandleLetterClick" Status=@(Buttons["I"]) />
+			<KeyboardButton ButtonText="O" ButtonPressed="HandleLetterClick" Status=@(Buttons["O"]) />
+			<KeyboardButton ButtonText="P" ButtonPressed="HandleLetterClick" Status=@(Buttons["P"]) />
 	    </div>
 	    <div class="middle-row">
-			<KeyboardButton ButtonText="A" ButtonPressed="HandleLetterClick" Status='Buttons["A"]' />
-			<KeyboardButton ButtonText="S" ButtonPressed="HandleLetterClick" Status='Buttons["S"]' />
-			<KeyboardButton ButtonText="D" ButtonPressed="HandleLetterClick" Status='Buttons["D"]' />
-			<KeyboardButton ButtonText="F" ButtonPressed="HandleLetterClick" Status='Buttons["F"]' />
-			<KeyboardButton ButtonText="G" ButtonPressed="HandleLetterClick" Status='Buttons["G"]' />
-			<KeyboardButton ButtonText="H" ButtonPressed="HandleLetterClick" Status='Buttons["H"]' />
-			<KeyboardButton ButtonText="J" ButtonPressed="HandleLetterClick" Status='Buttons["J"]' />
-			<KeyboardButton ButtonText="K" ButtonPressed="HandleLetterClick" Status='Buttons["K"]' />
-			<KeyboardButton ButtonText="L" ButtonPressed="HandleLetterClick" Status='Buttons["L"]' />
+			<KeyboardButton ButtonText="A" ButtonPressed="HandleLetterClick" Status=@(Buttons["A"]) />
+			<KeyboardButton ButtonText="S" ButtonPressed="HandleLetterClick" Status=@(Buttons["S"]) />
+			<KeyboardButton ButtonText="D" ButtonPressed="HandleLetterClick" Status=@(Buttons["D"]) />
+			<KeyboardButton ButtonText="F" ButtonPressed="HandleLetterClick" Status=@(Buttons["F"]) />
+			<KeyboardButton ButtonText="G" ButtonPressed="HandleLetterClick" Status=@(Buttons["G"]) />
+			<KeyboardButton ButtonText="H" ButtonPressed="HandleLetterClick" Status=@(Buttons["H"]) />
+			<KeyboardButton ButtonText="J" ButtonPressed="HandleLetterClick" Status=@(Buttons["J"]) />
+			<KeyboardButton ButtonText="K" ButtonPressed="HandleLetterClick" Status=@(Buttons["K"]) />
+			<KeyboardButton ButtonText="L" ButtonPressed="HandleLetterClick" Status=@(Buttons["L"]) />
 	    </div>
 	    <div class="bottom-row">
 		    <KeyboardButton ButtonText="ENTER" ButtonPressed="HandleLetterClick" />
-			<KeyboardButton ButtonText="Z" ButtonPressed="HandleLetterClick" Status='Buttons["Z"]' />
-			<KeyboardButton ButtonText="X" ButtonPressed="HandleLetterClick" Status='Buttons["X"]' />
-			<KeyboardButton ButtonText="C" ButtonPressed="HandleLetterClick" Status='Buttons["C"]' />
-			<KeyboardButton ButtonText="V" ButtonPressed="HandleLetterClick" Status='Buttons["V"]' />
-			<KeyboardButton ButtonText="B" ButtonPressed="HandleLetterClick" Status='Buttons["B"]' />
-			<KeyboardButton ButtonText="N" ButtonPressed="HandleLetterClick" Status='Buttons["N"]' />
-		    <KeyboardButton ButtonText="M" ButtonPressed="HandleLetterClick" Status='Buttons["M"]' />
+			<KeyboardButton ButtonText="Z" ButtonPressed="HandleLetterClick" Status=@(Buttons["Z"]) />
+			<KeyboardButton ButtonText="X" ButtonPressed="HandleLetterClick" Status=@(Buttons["X"]) />
+			<KeyboardButton ButtonText="C" ButtonPressed="HandleLetterClick" Status=@(Buttons["C"]) />
+			<KeyboardButton ButtonText="V" ButtonPressed="HandleLetterClick" Status=@(Buttons["V"]) />
+			<KeyboardButton ButtonText="B" ButtonPressed="HandleLetterClick" Status=@(Buttons["B"]) />
+			<KeyboardButton ButtonText="N" ButtonPressed="HandleLetterClick" Status=@(Buttons["N"]) />
+		    <KeyboardButton ButtonText="M" ButtonPressed="HandleLetterClick" Status=@(Buttons["M"]) />
 		    <KeyboardButton ButtonText="BS" ButtonPressed="HandleLetterClick" />
 	    </div>
-        <div class="reset-row">
-            <button type="button" @onclick="HandleReset">RESET</button>
-        </div>
+
+		<MudAppBar Bottom="true" Fixed="true" Elevation="1" Color="Color.Inherit">
+			<MudSpacer />
+			<MudButton Variant="Variant.Text" Color="Color.Inherit" @onclick="HandleReset">START NEW WORD</MudButton>
+			<MudSpacer />
+		</MudAppBar>
     </div>
 </div>
 
@@ -127,16 +131,7 @@
 
 		_guesses = 0;
 
-		string wordlist;
-
-		if (LocalStorage!.ContainKey("wordlist"))
-		{
-			wordlist = LocalStorage!.GetItemAsString("wordlist")!;
-		}
-		else
-		{
-			wordlist = "wordlist-easier";
-		}
+		var wordlist = LocalStorage!.ContainKey("wordlist") ? LocalStorage!.GetItemAsString("wordlist")! : "wordlist-easier";
 
 		_words = wordlist switch
 		{
@@ -172,7 +167,15 @@
 
 	async Task HandleReset()
 	{
-		await OnInitializedAsync();
+		var dialogOptions = new DialogOptions { CloseButton = true, Position = DialogPosition.TopCenter, CloseOnEscapeKey = true, };
+
+		var dialog = await DialogService.ShowAsync<ConfirmReset>("Are you sure?", dialogOptions);
+		var result = await dialog.Result;
+		
+		// MudDialog.Result.DataType is null in the case when result.Data stores a bool,
+		// Inversely, Result.DataType is System.Object if the dialog was canceled.
+		if (result.DataType is not Object && (bool)result.Data)
+			await OnInitializedAsync();
 	}
 
 	private async Task ProcessGuess()
