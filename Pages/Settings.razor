@@ -9,9 +9,9 @@
 		<MudGrid>
 			<MudItem sm="12">
 				<MudField Label="Difficulty" Variant="Variant.Outlined">
-					<MudRadioGroup @bind-SelectedOption="@WordListChoice">
-						<MudRadio Option="@("wordlist-easier")">Easier Wordlist</MudRadio>
-						<MudRadio Option="@("allwords")" class="pe-4">Complete Wordlist</MudRadio>
+					<MudRadioGroup @bind-Value="@WordListChoice">
+						<MudRadio Value="@("wordlist-easier")">Easier Wordlist</MudRadio>
+						<MudRadio Value="@("allwords")" class="pe-4">Complete Wordlist</MudRadio>
 					</MudRadioGroup>
 				</MudField>
 			</MudItem>
@@ -24,30 +24,21 @@
 
 @code
 {
-#pragma warning disable CS8618
-	[Inject] private Blazored.LocalStorage.ISyncLocalStorageService LocalStorage { get; set; }
-#pragma warning restore CS8618
+	[Inject] private Blazored.LocalStorage.ISyncLocalStorageService? LocalStorage { get; set; }
+	[CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+
 	public string WordListChoice { get; set; } = null!;
 	public int Guesses { get; set; }
-
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
+	
 	void Done()
 	{
-		LocalStorage.SetItemAsString("wordlist", WordListChoice);
+		LocalStorage!.SetItemAsString("wordlist", WordListChoice);
 		LocalStorage.SetItem("guesses", Guesses);
-		MudDialog.Close(DialogResult.Ok(true));
+		MudDialog!.Close(DialogResult.Ok(true));
 	}
 
 	protected override void OnInitialized()
 	{
-		if (LocalStorage.ContainKey("wordlist"))
-		{
-			WordListChoice = LocalStorage.GetItemAsString("wordlist");
-		}
-		else
-		{
-			WordListChoice = "wordlist-easier";
-		}
+		WordListChoice = LocalStorage!.ContainKey("wordlist") ? LocalStorage!.GetItemAsString("wordlist")! : "wordlist-easier";
 	}
 }
