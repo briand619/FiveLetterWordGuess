@@ -79,6 +79,11 @@ ul {
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
+::deep .keyboard > div.middle-row button, .keyboard > div.bottom-row button {
+    margin: 0.25vw;
+}
+
+
 ::deep .keyboard .bottom-row div:not(:first-child, :last-child):before, .keyboard .top-row div:before, .keyboard .middle-row div:before {
     content: attr(data-letter);
 }
@@ -86,6 +91,12 @@ ul {
 ::deep .keyboard > div button:not([disabled]):active {
     transform: translate(5%, 5%);
     background-color: #778899;
+}
+
+@media (hover: hover) {
+    ::deep button:hover {
+        background-color: #fff;
+    }
 }
 
 ::deep .keyboard > div button:not([disabled]):hover {
@@ -164,7 +175,7 @@ ul {
     border-style: outset;
 }
 
-.reset-row {
+.reset-row {    
     margin-top: 2vh;
 }
 
