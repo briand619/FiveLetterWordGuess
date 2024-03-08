@@ -7,10 +7,10 @@ on:
     - reopened
     - closed
     branches:
-    - master
+    - main
   push:
     branches:
-    - master
+    - main
 env:
   AZURE_STATIC_WEBAPP_NAME: FiveLetterWordGuess
   APP_DIRECTORY: '/'
