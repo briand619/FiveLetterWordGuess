@@ -1,6 +1,5 @@
 name: PROD - Build and deploy .NET Core application to Web App FiveLetterWordGuess
-on:   workflow_dispatch
-  
+on: workflow_dispatch  
 env:
   AZURE_STATIC_WEBAPP_NAME: FiveLetterWordGuess
   APP_DIRECTORY: '/'
@@ -9,7 +8,7 @@ env:
   DEPLOYMENT_ENVIRONMENT: production
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    # if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     name: Build and Deploy Job
     runs-on: ubuntu-latest
     steps:
