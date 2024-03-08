@@ -8,7 +8,7 @@
 	<DialogContent>
 		<MudPaper Class="pa-4">
 			<MudChart ChartType="ChartType.Donut" Width="100%" InputData="@data" InputLabels="@labels"></MudChart>
-			<MudText>Current Win Streak: @Stats.CurrentStreak</MudText>
+			<MudText>Current Win Streak: @Stats!.CurrentStreak</MudText>
 			<MudChart ChartType="ChartType.Bar" Width="100%" InputLabels="@labels" XAxisLabels="@BarLabels" ChartSeries="BarChartSeries"></MudChart>
 		</MudPaper>
 	</DialogContent>
@@ -20,21 +20,21 @@
 @code
 {
 	[Inject]
-	private Blazored.LocalStorage.ISyncLocalStorageService localStorage { get; set; }
+	private Blazored.LocalStorage.ISyncLocalStorageService? localStorage { get; set; }
 
-	private GameStatistics Stats { get; set; }
+	private GameStatistics? Stats { get; set; }
 
-	[CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+	[CascadingParameter] private MudDialogInstance? MudDialog { get; set; }
 
-	public double[] data;
-	public string[] labels;
+	public double[]? data;
+	public string[]? labels;
+	public string[]? BarLabels { get; set; }
 
-	public string[] BarLabels { get; set; }
-	public List<ChartSeries> BarChartSeries { get; set; }
+	public List<ChartSeries>? BarChartSeries { get; set; }
 
 	protected override void OnInitialized()
 	{
-		if (localStorage.ContainKey("stats"))
+		if (localStorage!.ContainKey("stats"))
 		{
 			Stats = localStorage.GetItem<GameStatistics>("stats")!;
 		}
@@ -69,6 +69,6 @@
 
 	void Done()
 	{
-		MudDialog.Close(DialogResult.Ok(true));
+		MudDialog!.Close(DialogResult.Ok(true));
 	}
 }
