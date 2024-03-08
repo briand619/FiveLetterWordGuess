@@ -74,7 +74,7 @@
 	string[][]? _flipped;
 	char[][]? _lettersRef;
 	LetterStatus[][]? _letterStatus;
-	IList<string?> _words = new List<string?>();
+	List<string> _words = new();
 	int _guesses = 0;
 	string _currentWord = string.Empty;
 	bool _gameOver;
@@ -105,7 +105,7 @@
 		}
 	}
 
-	protected override async Task OnInitializedAsync()
+	protected override void OnInitialized()
 	{
 		foreach (var key in Buttons.Keys)
 		{
@@ -143,6 +143,44 @@
 		_currentWord = _words[rnd.Next(0, _words.Count)]!;
 	}
 
+	// protected override async Task OnInitializedAsync()
+	// {
+	// 	foreach (var key in Buttons.Keys)
+	// 	{
+	// 		Buttons[key] = LetterStatus.NotChecked;
+	// 	}
+
+	// 	var rnd = new Random();
+	// 	_gameOver = false;
+	// 	_guessLimit = 6;
+
+	// 	_flipped = new string[_guessLimit][];
+	// 	_lettersRef = new char[_guessLimit][];
+	// 	_letterStatus = new LetterStatus[_guessLimit][];
+
+	// 	_currentGuess = string.Empty;
+
+	// 	for (var i = 0; i < _guessLimit; i++)
+	// 	{
+	// 		_lettersRef[i] = Enumerable.Repeat(' ', 5).ToArray();
+	// 		_letterStatus[i] = Enumerable.Repeat(LetterStatus.NotChecked, 5).ToArray();
+	// 		_flipped[i] = Enumerable.Repeat(string.Empty, 5).ToArray();
+	// 	}
+
+	// 	_guesses = 0;
+
+	// 	var wordlist = LocalStorage!.ContainKey("wordlist") ? LocalStorage!.GetItemAsString("wordlist")! : "wordlist-easier";
+
+	// 	_words = wordlist switch
+	// 	{
+	// 		"allwords" => WordLists.AllWordList,
+	// 		"wordlist-easier" => WordLists.EasierWordList,
+	// 		_ => WordLists.EasierWordList
+	// 	};
+
+	// 	_currentWord = _words[rnd.Next(0, _words.Count)]!;
+	// }
+
 	async Task HandleLetterClick(KeyboardButton button)
 	{
 		if (_gameOver) return;
@@ -175,7 +213,7 @@
 		// MudDialog.Result.DataType is null in the case when result.Data stores a bool,
 		// Inversely, Result.DataType is System.Object if the dialog was canceled.
 		if (result.DataType is not Object && (bool)result.Data)
-			await OnInitializedAsync();
+			OnInitialized();
 	}
 
 	private async Task ProcessGuess()
@@ -237,7 +275,7 @@
 				config.ShowCloseIcon = true;
 				config.Onclick = async sb =>
 				{
-					await OnInitializedAsync();
+					OnInitialized();
 					StateHasChanged();
 				};
 			});
@@ -285,7 +323,7 @@
 					config.ShowCloseIcon = true;
 					config.Onclick = async sb =>
 					{
-						await OnInitializedAsync();
+						OnInitialized();
 						StateHasChanged();						
 					};
 				});
