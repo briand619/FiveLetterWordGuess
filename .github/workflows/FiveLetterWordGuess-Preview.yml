@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App FiveLetterWordGuess
+name: CI/CD - Build and deploy .NET Core application to Web App FiveLetterWordGuess
 on:
   pull_request:
     types:
