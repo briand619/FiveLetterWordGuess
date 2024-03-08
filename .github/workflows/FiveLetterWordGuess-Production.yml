@@ -1,6 +1,5 @@
-name: Build and deploy .NET Core application to Web App FiveLetterWordGuess
-on:
-  workflow_dispatch:
+name: PROD - Build and deploy .NET Core application to Web App FiveLetterWordGuess
+on:   workflow_dispatch
   
 env:
   AZURE_STATIC_WEBAPP_NAME: FiveLetterWordGuess
