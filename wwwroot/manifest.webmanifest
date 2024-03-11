@@ -1,12 +1,18 @@
 {
     "name": "Five Letter Word Guess",
     "short_name": "Five Letter Word Guess",
-    "id": "./",
+    "id": "com.dobberteen.flwg",
+    "description": "A clone of the game W****e!",
     "start_url": "./",
+    "scope": "https://flwg.dobberteen.com",
+    "lang": "en",
+    "orientation": "portrait",
+    "dir": "ltr",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#03173d",
     "prefer_related_applications": false,
+    "categories": ["games"],
     "icons": [
         {
             "src": "icon-512.png",
