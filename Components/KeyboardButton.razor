@@ -17,11 +17,6 @@
 
 	protected override void OnParametersSet()
 	{
-		if (ButtonText != "ENTER")
-		{
-			Disabled = Status == LetterStatus.NotInWord;
-		}
-
 		if (ButtonText == "BS")
 		{
 			_buttonContents = "&#x232b;";
