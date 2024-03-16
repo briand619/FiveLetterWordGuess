@@ -49,7 +49,7 @@
 			<KeyboardButton ButtonText="L" ButtonPressed="HandleLetterClick" Status=@(Buttons["L"]) />
 	    </div>
 	    <div class="bottom-row">
-		    <KeyboardButton ButtonText="ENTER" ButtonPressed="HandleLetterClick" />
+		    <KeyboardButton ButtonText="ENTER" ButtonPressed="HandleLetterClick" Disabled="@_enterPressed" />
 			<KeyboardButton ButtonText="Z" ButtonPressed="HandleLetterClick" Status=@(Buttons["Z"]) />
 			<KeyboardButton ButtonText="X" ButtonPressed="HandleLetterClick" Status=@(Buttons["X"]) />
 			<KeyboardButton ButtonText="C" ButtonPressed="HandleLetterClick" Status=@(Buttons["C"]) />
@@ -78,6 +78,7 @@
 	int _guesses = 0;
 	string _currentWord = string.Empty;
 	bool _gameOver;
+	bool _enterPressed = false;
 	private string _currentGuess = string.Empty;
 	Dictionary<string, LetterStatus> Buttons = Enumerable.Range('A', 26).Select(c => ((char)c).ToString()).ToDictionary(x => x, y => LetterStatus.NotChecked);
 
@@ -193,7 +194,9 @@
 				return;
 			case "ENTER":
 				if (CurrentGuess!.Length < 5) return;
+				_enterPressed = true;
 				await ProcessGuess();
+				_enterPressed = false;
 				return;
 		}
 
