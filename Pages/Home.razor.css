@@ -94,17 +94,13 @@ ul {
 }
 
 @media (hover: hover) {
-    ::deep button:hover {
-        background-color: #fff;
+    ::deep .keyboard > div button:not([disabled]):hover {
+        background-color: #778899;
     }
 }
 
-::deep .keyboard > div button:not([disabled]):hover {
-    background-color: #778899;
-}
-
-::deep .keyboard > div:last-child > div:last-child {
-    font-size: 3vh;
+::deep .keyboard > .bottom-row > button:last-child {
+    font-size: 2vh;
 }
 
 .letter {
