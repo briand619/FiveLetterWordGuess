@@ -1,0 +1,40 @@
+﻿@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; } = default!;
+    private bool _updateAvailable = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RegisterForUpdateAvailableNotification();
+    }
+
+    private async Task RegisterForUpdateAvailableNotification()
+    {
+        await JSRuntime.InvokeVoidAsync("registerForUpdateAvailableNotification", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable(nameof(OnUpdateAvailable))]
+    public Task OnUpdateAvailable(bool available) {
+        if (!available)
+        {
+            return Task.CompletedTask;
+        }
+
+        StateHasChanged();
+
+        Snackbar.Add("An update is available. Please refresh the page to get the latest version.", Severity.Info, config =>
+        {
+            config.Action = "Refresh";
+            config.ActionColor = Color.Primary;
+            config.Onclick = sb =>
+            {
+                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+                return Task.CompletedTask;
+            };
+        });
+
+        return Task.CompletedTask;
+    }
+}
