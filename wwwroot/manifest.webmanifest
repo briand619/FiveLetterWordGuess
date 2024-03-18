@@ -4,7 +4,7 @@
     "id": "com.dobberteen.flwg",
     "description": "A clone of the game W****e!",
     "start_url": "./",
-    "scope": "https://flwg.dobberteen.com",
+    "scope": ".",
     "lang": "en",
     "orientation": "portrait",
     "dir": "ltr",
