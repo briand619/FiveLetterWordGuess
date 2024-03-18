@@ -7,7 +7,7 @@
     <ul class="guesses">
         @for (var i = 0; i < _guessLimit; i++)
         {
-            <li class="word">
+            <li class="@_wordStatus[i]">
                 <div class="letters">
                     @for (var j = 0; j < 5; j++)
                     {
@@ -73,6 +73,7 @@
 	int _guessLimit;
 	string[][]? _flipped;
 	char[][]? _lettersRef;
+	string[] _wordStatus = new string[] { "word", "word", "word", "word", "word", "word" };
 	LetterStatus[][]? _letterStatus;
 	List<string> _words = new();
 	int _guesses = 0;
@@ -120,6 +121,7 @@
 		_flipped = new string[_guessLimit][];
 		_lettersRef = new char[_guessLimit][];
 		_letterStatus = new LetterStatus[_guessLimit][];
+		_wordStatus = new string[] { "word", "word", "word", "word", "word", "word" };
 
 		_currentGuess = string.Empty;
 
@@ -143,45 +145,7 @@
 
 		_currentWord = _words[rnd.Next(0, _words.Count)]!;
 	}
-
-	// protected override async Task OnInitializedAsync()
-	// {
-	// 	foreach (var key in Buttons.Keys)
-	// 	{
-	// 		Buttons[key] = LetterStatus.NotChecked;
-	// 	}
-
-	// 	var rnd = new Random();
-	// 	_gameOver = false;
-	// 	_guessLimit = 6;
-
-	// 	_flipped = new string[_guessLimit][];
-	// 	_lettersRef = new char[_guessLimit][];
-	// 	_letterStatus = new LetterStatus[_guessLimit][];
-
-	// 	_currentGuess = string.Empty;
-
-	// 	for (var i = 0; i < _guessLimit; i++)
-	// 	{
-	// 		_lettersRef[i] = Enumerable.Repeat(' ', 5).ToArray();
-	// 		_letterStatus[i] = Enumerable.Repeat(LetterStatus.NotChecked, 5).ToArray();
-	// 		_flipped[i] = Enumerable.Repeat(string.Empty, 5).ToArray();
-	// 	}
-
-	// 	_guesses = 0;
-
-	// 	var wordlist = LocalStorage!.ContainKey("wordlist") ? LocalStorage!.GetItemAsString("wordlist")! : "wordlist-easier";
-
-	// 	_words = wordlist switch
-	// 	{
-	// 		"allwords" => WordLists.AllWordList,
-	// 		"wordlist-easier" => WordLists.EasierWordList,
-	// 		_ => WordLists.EasierWordList
-	// 	};
-
-	// 	_currentWord = _words[rnd.Next(0, _words.Count)]!;
-	// }
-
+		
 	async Task HandleLetterClick(KeyboardButton button)
 	{
 		if (_gameOver) return;
@@ -212,7 +176,7 @@
 
 		var dialog = await DialogService.ShowAsync<ConfirmReset>("Are you sure?", dialogOptions);
 		var result = await dialog.Result;
-		
+
 		// MudDialog.Result.DataType is null in the case when result.Data stores a bool,
 		// Inversely, Result.DataType is System.Object if the dialog was canceled.
 		if (result.DataType is not Object && (bool)result.Data)
@@ -263,9 +227,15 @@
 				_letterStatus![_guesses][i] = LetterStatus.InWordRightPlace;
 				Buttons![CurrentGuess[i].ToString().ToUpperInvariant()] = LetterStatus.InWordRightPlace;
 				StateHasChanged();
-				
+
 				await Task.Delay(TimeSpan.FromMilliseconds(250));				
 			}
+
+			StateHasChanged();
+
+			_wordStatus[_guesses] += " correct-word";
+
+			await Task.Delay(TimeSpan.FromMilliseconds(500));
 
 			StateHasChanged();
 

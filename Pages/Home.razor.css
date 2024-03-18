@@ -36,7 +36,15 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    /*position: relative;*/
+    flex-direction: column;
+    gap: 1vh;
+}
+
+@media (orientation: landscape) {
+    .game-container {
+        flex-direction: row-reverse;
+    }
 }
 
 .letter-container {
@@ -54,8 +62,8 @@ ul {
 }
 
 ::deep .keyboard {
-    position: absolute;
-    top: 110%;
+    display: flex;
+    flex-direction: column;
 }
 
 ::deep .keyboard > div {
@@ -82,7 +90,6 @@ ul {
 ::deep .keyboard > div.middle-row button, .keyboard > div.bottom-row button {
     margin: 0.25vw;
 }
-
 
 ::deep .keyboard .bottom-row div:not(:first-child, :last-child):before, .keyboard .top-row div:before, .keyboard .middle-row div:before {
     content: attr(data-letter);
@@ -159,6 +166,31 @@ ul {
     perspective: 1000px;
 }
 
+::deep .word.correct-word > div > div:nth-child(1) {
+    animation: win 0.5s ease-in-out;
+    animation-delay: 0s;
+}
+
+::deep .word.correct-word > div > div:nth-child(2) {
+    animation: win 0.5s ease-in-out;
+    animation-delay: 0.1s;
+}
+
+::deep .word.correct-word > div > div:nth-child(3) {
+    animation: win 0.5s ease-in-out;
+    animation-delay: 0.2s;
+}
+
+::deep .word.correct-word > div > div:nth-child(4) {
+    animation: win 0.5s ease-in-out;
+    animation-delay: 0.3s;
+}
+
+::deep .word.correct-word > div > div:nth-child(5) {
+    animation: win 0.5s ease-in-out;
+    animation-delay: 0.4s;
+}
+
 .status {
     position: absolute;
     top: 2vh;
@@ -171,7 +203,7 @@ ul {
     border-style: outset;
 }
 
-.reset-row {    
+.reset-row {
     margin-top: 2vh;
 }
 
@@ -186,6 +218,7 @@ ul {
         transform: translate3d(-1px, 0, 0);
     }
 
+
     20%, 80% {
         transform: translate3d(2px, 0, 0);
     }
@@ -196,6 +229,20 @@ ul {
 
     40%, 60% {
         transform: translate3d(4px, 0, 0);
+    }
+}
+
+@keyframes win {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    25%, 75% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
     }
 }
 
