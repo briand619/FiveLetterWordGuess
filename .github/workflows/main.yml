@@ -24,9 +24,11 @@ jobs:
     - name: Copy index.html
       run: cp release/wwwroot/index.html release/wwwroot/404.html
 
+    
     - name: Commit and push to gh-pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
         folder: release/wwwroot
         
