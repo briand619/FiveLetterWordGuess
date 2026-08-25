@@ -1,0 +1,262 @@
+/* /Pages/Home.razor.rz.scp.css */
+*[b-1jo3yi2zwi] {
+    touch-action: none;
+}
+
+.container[b-1jo3yi2zwi] {
+    background-color: #222;
+}
+
+ul[b-1jo3yi2zwi] {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.guesses[b-1jo3yi2zwi] {
+    list-style-type: none;
+    flex-direction: column;
+}
+
+.word[b-1jo3yi2zwi] {
+    padding: 0.1vh;
+    margin: 0.1vh;
+}
+
+.letters[b-1jo3yi2zwi] {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-container:focus[b-1jo3yi2zwi] {
+    outline: none;
+}
+
+.game-container[b-1jo3yi2zwi] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*position: relative;*/
+    flex-direction: column;
+    gap: 1vh;
+}
+
+@media (orientation: landscape) {
+    .game-container[b-1jo3yi2zwi] {
+        flex-direction: row-reverse;
+    }
+}
+
+.letter-container[b-1jo3yi2zwi] {
+    border: 1px solid #d3d3d3;
+    font-size: 2em;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 600px;
+    margin: 2px;
+}
+
+[b-1jo3yi2zwi] .keyboard {
+    display: flex;
+    flex-direction: column;
+}
+
+[b-1jo3yi2zwi] .keyboard > div {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+[b-1jo3yi2zwi] .keyboard > div button {
+    display: flex;
+    border: 1px solid #000;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2vw;
+    padding: 0.2vw;
+    min-width: 4.4vh;
+    min-height: 4.4vh;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+[b-1jo3yi2zwi] .keyboard > div.middle-row button, .keyboard > div.bottom-row button[b-1jo3yi2zwi] {
+    margin: 0.25vw;
+}
+
+[b-1jo3yi2zwi] .keyboard .bottom-row div:not(:first-child, :last-child):before, .keyboard .top-row div[b-1jo3yi2zwi]:before, .keyboard .middle-row div[b-1jo3yi2zwi]:before {
+    content: attr(data-letter);
+}
+
+[b-1jo3yi2zwi] .keyboard > div button:not([disabled]):active {
+    transform: translate(5%, 5%);
+    background-color: #778899;
+}
+
+@media (hover: hover) {
+    [b-1jo3yi2zwi] .keyboard > div button:not([disabled]):hover {
+        background-color: #778899;
+    }
+}
+
+[b-1jo3yi2zwi] .keyboard > .bottom-row > button:last-child {
+    font-size: 2vh;
+}
+
+.letter[b-1jo3yi2zwi] {
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: 0.75s;
+}
+
+.letter-face[b-1jo3yi2zwi] {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+[b-1jo3yi2zwi] .NotChecked {
+    background-color: #fff;
+    color: #000;
+}
+
+.is-flipped[b-1jo3yi2zwi] {
+    transform: rotateY(180deg);
+}
+
+.letter-back[b-1jo3yi2zwi] {
+    transform: rotateY(180deg);
+    border: 1px solid #000;
+}
+
+[b-1jo3yi2zwi] .NotInWord {
+    background-color: #222222;
+    color: #fff;
+}
+
+[b-1jo3yi2zwi] .InWordWrongPlace {
+    background-color: darkorange;
+    color: #fff;
+}
+
+[b-1jo3yi2zwi] .InWordRightPlace {
+    background-color: darkgreen;
+    color: #fff;
+}
+
+[b-1jo3yi2zwi] .NonWord {
+    animation: shake-b-1jo3yi2zwi 0.25s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+[b-1jo3yi2zwi] .word.correct-word > div > div:nth-child(1) {
+    animation: win-b-1jo3yi2zwi 0.5s ease-in-out;
+    animation-delay: 0s;
+}
+
+[b-1jo3yi2zwi] .word.correct-word > div > div:nth-child(2) {
+    animation: win-b-1jo3yi2zwi 0.5s ease-in-out;
+    animation-delay: 0.1s;
+}
+
+[b-1jo3yi2zwi] .word.correct-word > div > div:nth-child(3) {
+    animation: win-b-1jo3yi2zwi 0.5s ease-in-out;
+    animation-delay: 0.2s;
+}
+
+[b-1jo3yi2zwi] .word.correct-word > div > div:nth-child(4) {
+    animation: win-b-1jo3yi2zwi 0.5s ease-in-out;
+    animation-delay: 0.3s;
+}
+
+[b-1jo3yi2zwi] .word.correct-word > div > div:nth-child(5) {
+    animation: win-b-1jo3yi2zwi 0.5s ease-in-out;
+    animation-delay: 0.4s;
+}
+
+.status[b-1jo3yi2zwi] {
+    position: absolute;
+    top: 2vh;
+    font-size: 2em;
+    border: 8px solid #000;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    padding: 1rem;
+    font-weight: bold;
+    border-style: outset;
+}
+
+.reset-row[b-1jo3yi2zwi] {
+    margin-top: 2vh;
+}
+
+.reset-row > button[b-1jo3yi2zwi] {
+    padding: 0.1em !important;
+    min-height: 1.5vh !important;
+    min-width: 20vw !important;
+}
+
+@keyframes shake-b-1jo3yi2zwi {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+@keyframes win-b-1jo3yi2zwi {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    25%, 75% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+}
+
+.no-result[b-1jo3yi2zwi] {
+    display: none;
+}
+
+.result[b-1jo3yi2zwi] {
+    display: block;
+}
+
+.status-wrapper[b-1jo3yi2zwi] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
