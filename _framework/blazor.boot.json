@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "FiveLetterWordGuess",
   "resources": {
-    "hash": "sha256-+1jD0lQjxYDGHCHNKwPt8Ps0zXF/rcG37oDtyyDkglc=",
+    "hash": "sha256-9e5THhoMNroNiLsrFRMqslT1E22dIsNliP09jmDp1sI=",
     "fingerprinting": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "Blazored.LocalStorage.wasm",
       "Microsoft.AspNetCore.Components.psex1tfw7y.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -43,7 +43,7 @@
       "System.Text.RegularExpressions.pch925aerp.wasm": "System.Text.RegularExpressions.wasm",
       "System.Threading.9veevijhzj.wasm": "System.Threading.wasm",
       "System.Private.CoreLib.vyoom2qn8y.wasm": "System.Private.CoreLib.wasm",
-      "FiveLetterWordGuess.bk6713006p.wasm": "FiveLetterWordGuess.wasm",
+      "FiveLetterWordGuess.0r234a3nfl.wasm": "FiveLetterWordGuess.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.wlvwu26j41.js": "dotnet.native.js",
       "dotnet.native.kiufslnrq2.wasm": "dotnet.native.wasm",
@@ -109,7 +109,7 @@
       "System.Text.Json.u3sewhc95s.wasm": "sha256-NnZi/ko5eZ7zgcWemdTtEhCu9FKkdum/FUsmGuPxyiA=",
       "System.Text.RegularExpressions.pch925aerp.wasm": "sha256-GVY8Ki59g5ptJw/xKT+JGlVxS5Cyl2aLuvF0j8kVJ4I=",
       "System.Threading.9veevijhzj.wasm": "sha256-O0a8Ue3axdOo1i5r++ozyb2t84Npo8ZIsNvMukHhhvY=",
-      "FiveLetterWordGuess.bk6713006p.wasm": "sha256-BVYX+8rTLfj7TK47YxkCe0jwOBgvrEAa4Hnp36VkLPA="
+      "FiveLetterWordGuess.0r234a3nfl.wasm": "sha256-rAxbzjArQNVU/M/SLxx9SeeDxAsudKYIZX5u4R7MFKE="
     }
   },
   "cacheBootResources": true,
