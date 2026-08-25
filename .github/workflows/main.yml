@@ -1,0 +1,32 @@
+name: Deploy to GH Pages
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Publish Blazor
+      run: dotnet publish -c Release -o release
+
+    - name: Fix base tag
+      run: |
+        sed -i 's/<base href="\/" \/>/<base href="\/FiveLetterWordGuess\/? \/>/g' release/wwwrooot/index.html
+
+    - name: Copy index.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+    - name: Commit and push to gh-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages
+        folder: release/wwwroot
+        
