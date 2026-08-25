@@ -15,7 +15,7 @@ jobs:
         dotnet-version: '9.0.x'
 
     - name: Publish Blazor
-      run: dotnet publish -c Release -o release
+      run: dotnet publish FiveLetterWordGuess.csproj -c Release -o release
 
     - name: Fix base tag
       run: |
